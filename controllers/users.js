@@ -38,3 +38,11 @@ async function signup(req, res) {
         res.status(400).json(err);
     }
 }
+
+function createJWT(user) {
+    return jwt.sign(
+        {user},
+        SECRET,
+        {expiresIn: "24h"}
+    );
+}
