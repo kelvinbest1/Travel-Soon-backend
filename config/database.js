@@ -1,13 +1,19 @@
-const mongoose = require("mongoose");
+///////////////////////////////
+// DEPENDENCIES
+////////////////////////////////
 
-mongoose.connect(process.env.DATABASE_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false
-});
+// pull PORT from .env, give default value of 4000
+const mongoose = require('mongoose');
+const {MONGODB_URI} = process.env
 
-const db = mongoose.connection;
-db.on("connected", function () {
-    console.log(`Mongoose connected to: ${db.host}:${db.port}`);
-});
+///////////////////////////////
+// DATABASE CONNECTION
+////////////////////////////////
+mongoose.set('strictQuery', true);
+mongoose.connect(MONGODB_URI)
+
+// Connection Events
+mongoose.connection
+  .on("open", () => console.log("You are connected to mongoose"))
+  .on("close", () => console.log("You are disconnected from mongoose"))
+  .on("error", (error) => console.log(error));
